@@ -5,6 +5,7 @@ public class Welcomemain {
 	static final int NUM_ITEM = 7;
 	static CartItem[] mCartItem = new CartItem[NUM_BOOK];
 	static int mCartCount = 0;
+	static User mUser;
 	
 	
 	private static final String[][] String = null;
@@ -18,6 +19,7 @@ public class Welcomemain {
 
 		System.out.print("연락처를 입력하세요: ");
 		int phone = input.nextInt();
+		mUser = new User(name, phone);
 
 		String greeting = "Welcome to Shopping Mall!";
 		String tagline = "Welcome to Book Market!!";
@@ -43,9 +45,13 @@ public class Welcomemain {
 			System.out.println("메뉴 번호를 선택하세요: ");
 			int choice = input.nextInt();
 
-			if (choice < 1 || choice > 8) {
+			/*if (choice < 1 || choice > 8) {
 				System.out.println("1부터 8까지의 숫자를 입력하세요.");
-			} else {
+			}*/
+			if(choice < 1 || choice > 9) {
+				System.out.println("1부터 9까지의 숫자를 입력하세요");
+			}
+				else {
 				switch (choice) {
 				case 1:
 //					System.out.println("1.현재 고객 정보: ");
@@ -74,6 +80,9 @@ public class Welcomemain {
 					menuCartExit();
 					quit = true;
 					break;
+				case 9:
+					menuAdminLogin();
+					break;
 					
 				}// switch 끝
 			} // else 끝
@@ -90,6 +99,7 @@ public class Welcomemain {
 		System.out.println("2. 장바구니 상품 목록 보기\t 6. 장바구니에 항목 수량 줄이기");
 		System.out.println("3. 장바구니 비우기\t 7.장바구니의 항목 삭제하기");
 		System.out.println("4. 영수중 표시하기\t 8.종료");
+		System.out.println("9. 관리자 로그인");
 		System.out.println("******************************");
 
 	}
@@ -100,8 +110,9 @@ public class Welcomemain {
 	public static void menuGuestInfo(String name, int phone) {
 		System.out.println("1.현재 고객 정보: ");
 		//System.out.println("이름: " + name + "연락처:" + phone);
-		Person person = new Person(name, phone);
-		System.out.println("이름 " + person.getName() + " 연락처 " + person.getPhone());
+		//Person person = new Person(name, phone);
+		//System.out.println("이름 " + person.getName() + " 연락처 " + person.getPhone());
+		System.out.println("이름 " + mUser.getName() + "  연락처" + mUser.getPhone());
 	}
 
 	/**
@@ -224,6 +235,26 @@ public class Welcomemain {
 	
 		
 		
+	}
+
+		
+
+	public static void menuAdminLogin() {
+		System.out.println("관리자 정보를 입력하세요");
+		
+		Scanner input = new Scanner(System.in);
+		System.out.print("아이디");
+		String adminId = input.next();
+		
+		System.out.print("비밀번호 :");
+		String adminPW = input.next();
+		
+		Admin admin = new Admin(mUser.getName(), mUser.getPhone());
+		if(adminId.equals(admin.getId()) && adminPW.equals(admin.getPassword())) {
+			System.out.println("이름 " + admin.getName() + " 연락처" + admin.getPhone());
+			System.out.println("아이디 " + admin.getId() + " 비밀번호" + admin.getPassword());
+			}else
+			System.out.println("관리자 정보가 일치하지 않습니다.");
 	}
 				
 				
