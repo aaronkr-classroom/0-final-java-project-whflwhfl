@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+import com.market.excption.CartException;
 public class Welcomemain {
 	static final int NUM_BOOK = 3;
 	static final int NUM_ITEM = 7;
@@ -43,13 +43,10 @@ public class Welcomemain {
 			 */
 
 			menuIntro();
-
+			try {
 			System.out.println("메뉴 번호를 선택하세요: ");
 			int choice = input.nextInt();
-
-			/*if (choice < 1 || choice > 8) {
-				System.out.println("1부터 8까지의 숫자를 입력하세요.");
-			}*/
+			
 			if(choice < 1 || choice > 9) {
 				System.out.println("1부터 9까지의 숫자를 입력하세요");
 			}
@@ -86,10 +83,22 @@ public class Welcomemain {
 				case 9:
 					menuAdminLogin();
 					break;
+			
+			
+			}
+
+			/*if (choice < 1 || choice > 8) {
+				System.out.println("1부터 8까지의 숫자를 입력하세요.");
+			}*/
+			
 					
 				}// switch 끝
-			} // else 끝
-		} // while 끝
+			}
+			catch(CartException e) {
+				System.out.println(e.getMessage());
+				quit = true;// else 끝
+			}
+		}// while 끝
 
 	}// main 함수 끝
 
@@ -141,9 +150,9 @@ public class Welcomemain {
 		
 	}
 
-	public static void menuCartClear() {
+	public static void menuCartClear() throws CartException {
 		if(mCart.mCartCount == 0)
-			System.out.println("바구니에 항목이 없습니다.");
+			throw new CartException("바구니에 항목이 없습니다.");
 		else {
 			System.out.println("장바구니에 모든 항목을 삭제하겠습니다? Y | N");
 			Scanner input = new Scanner(System.in);
@@ -219,9 +228,9 @@ public class Welcomemain {
 		System.out.println("6. 장바구니의 항목 수량 줄이기");
 	}
 
-	public static void menuCartRemoveItem() {
+	public static void menuCartRemoveItem() throws CartException {
 		if(mCart.mCartCount == 0)
-			System.out.println("장바구니에 항목이 없습니다.");
+			throw new CartException("장바구니에 항목이 없습니다.");
 		else {
 			menuCartItemList();
 			boolean quit = false;
@@ -255,8 +264,11 @@ public class Welcomemain {
 		System.out.println("7. 장바구니의 항목 삭제하기");
 	}
 
-	public static void menuCartBill() {
-		System.out.println("4.영수증 표시하기: ");
+	public static void menuCartBill() throws CartException {
+		//System.out.println("4.영수증 표시하기: ");
+		if (mCart.mCartCount == 0)
+			throw new CartException("장바구진에 항목이 없습니다");
+		
 	}
 
 	public static void menuCartExit() {
